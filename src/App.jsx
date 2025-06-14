@@ -1,7 +1,8 @@
 import React from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import BlogPostList from './components/BlogPostList';
 import BlogPostDetail from './components/BlogPostDetail';
+import BlogPostForm from './components/BlogPostForm';
 
 const samplePosts = [
   {
@@ -24,28 +25,77 @@ const samplePosts = [
   },
 ];
 
-function BlogPostDetailWrapper() {
-  const { id } = useParams();
-  const post = samplePosts.find((p) => p.id === id);
-  return post ? (
-    <BlogPostDetail
-      title={post.title}
-      content={post.content}
-      author={post.author}
-      date={post.date}
-    />
-  ) : (
-    <BlogPostDetail />
-  );
-}
-
 function App() {
+  const [posts, setPosts] = React.useState(samplePosts);
+  const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
+
+  // Create new post handler
+  const handleCreatePost = (data) => {
+    setLoading(true);
+    setTimeout(() => {
+      const newPost = {
+        ...data,
+        id: (posts.length + 1).toString(),
+        summary: data.content.slice(0, 80) + '...',
+        url: `/posts/${posts.length + 1}`,
+      };
+      setPosts([newPost, ...posts]);
+      setLoading(false);
+      navigate('/');
+    }, 600);
+  };
+
+  // Edit post handler
+  const handleEditPost = (id, data) => {
+    setLoading(true);
+    setTimeout(() => {
+      setPosts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...data } : p))
+      );
+      setLoading(false);
+      navigate(`/posts/${id}`);
+    }, 600);
+  };
+
+  function BlogPostDetailWrapper() {
+    const { id } = useParams();
+    const post = posts.find((p) => p.id === id);
+    return post ? (
+      <BlogPostDetail
+        title={post.title}
+        content={post.content}
+        author={post.author}
+        date={post.date}
+      />
+    ) : (
+      <BlogPostDetail />
+    );
+  }
+
+  function BlogPostEditWrapper() {
+    const { id } = useParams();
+    const post = posts.find((p) => p.id === id);
+    return post ? (
+      <BlogPostForm
+        post={post}
+        loading={loading}
+        onSubmit={(data) => handleEditPost(id, data)}
+      />
+    ) : (
+      <p>Post not found.</p>
+    );
+  }
+
   return (
     <>
       <h1>Blog Posts</h1>
-      <BlogPostList posts={samplePosts} />
+      <BlogPostList posts={posts} />
       <Routes>
+        <Route path="/" element={null} />
+        <Route path="/posts/new" element={<BlogPostForm loading={loading} onSubmit={handleCreatePost} />} />
         <Route path="/posts/:id" element={<BlogPostDetailWrapper />} />
+        <Route path="/posts/:id/edit" element={<BlogPostEditWrapper />} />
       </Routes>
     </>
   );
