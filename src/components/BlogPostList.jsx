@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import BlogPostItem from './BlogPostItem';
 import styles from './BlogPostList.module.css';
 
-const BlogPostList = ({ posts }) => {
+const BlogPostList = ({ posts, onDelete }) => {
   if (!posts || posts.length === 0) {
     return <p className={styles.empty}>No blog posts available.</p>;
   }
@@ -19,6 +19,7 @@ const BlogPostList = ({ posts }) => {
           <div className={styles.meta}>
             <span>By {post.author}</span> | <span>{post.date}</span>
             <Link to={`/posts/${post.id}/edit`} className={styles.editButton}>Edit</Link>
+            <button className={styles.deleteButton} onClick={() => onDelete(post.id)} aria-label={`Delete post ${post.title}`}>Delete</button>
           </div>
           <div className={styles.summary}>{post.summary}</div>
         </div>
