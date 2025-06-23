@@ -3,6 +3,7 @@ import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import BlogPostList from './components/BlogPostList';
 import BlogPostDetail from './components/BlogPostDetail';
 import BlogPostForm from './components/BlogPostForm';
+import Layout from './components/Layout';
 
 const samplePosts = [
 	{
@@ -95,7 +96,7 @@ function App() {
 	}
 
 	return (
-		<>
+		<Layout>
 			<h1>Blog Posts</h1>
 			<BlogPostList posts={posts} onDelete={handleDeletePost} />
 			<Routes>
@@ -112,7 +113,7 @@ function App() {
 				<Route path="/posts/:id" element={<BlogPostDetailWrapper />} />
 				<Route path="/posts/:id/edit" element={<BlogPostEditWrapper />} />
 			</Routes>
-		</>
+		</Layout>
 	);
 }
 
