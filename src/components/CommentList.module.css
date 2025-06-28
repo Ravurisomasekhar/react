@@ -1,0 +1,8 @@
+.commentList {
+  margin-top: 32px;
+}
+.noComments {
+  color: #888;
+  font-style: italic;
+  margin-bottom: 16px;
+}
