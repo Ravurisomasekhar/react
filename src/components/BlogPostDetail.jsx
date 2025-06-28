@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './BlogPostDetail.module.css';
+import CommentList from './CommentList';
+import CommentForm from './CommentForm';
 
 const BlogPostDetail = ({ title, content, author, date }) => {
+  // Comments state for this post
+  const [comments, setComments] = useState([]);
+
+  const handleAddComment = (comment) => {
+    setComments((prev) => [...prev, comment]);
+  };
+
   if (!title || !content || !author || !date) {
     return <p className={styles.notFound}>Blog post not found.</p>;
   }
@@ -19,6 +28,8 @@ const BlogPostDetail = ({ title, content, author, date }) => {
         className={styles.content}
         dangerouslySetInnerHTML={{ __html: content }}
       />
+      <CommentList comments={comments} />
+      <CommentForm onSubmit={handleAddComment} />
     </div>
   );
 };
