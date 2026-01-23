@@ -1,0 +1,77 @@
+.blogPostList {
+  display: grid;
+  grid-gap: 20px;
+  /* Mobile first - single column */
+  grid-template-columns: 1fr;
+  padding: 10px;
+}
+
+.blogPostCard {
+  background: none;
+  border: 1px solid #1976d2;
+  border-radius: 12px;
+  min-height: 220px;
+  min-width: 260px;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  margin-bottom: 0;
+  padding: 0 0 12px 0;
+}
+
+/* Tablet - two columns */
+@media (min-width: 769px) and (max-width: 1199px) {
+  .blogPostList {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+  }
+}
+
+/* Desktop - three columns */
+@media (min-width: 1200px) {
+  .blogPostList {
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+  }
+}
+
+/* Mobile & Tablet: Make buttons full width and add spacing */
+@media (max-width: 1199px) {
+  .blogPostList button {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .blogPostList a {
+    width: 100%;
+    display: block;
+  }
+}
+
+.topBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  grid-column: 1 / -1;
+}
+
+/* Mobile: Make button full width */
+@media (max-width: 767px) {
+  .topBar {
+    justify-content: center;
+  }
+  .topBar button {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .topBar a {
+    width: 100%;
+    display: block;
+  }
+}
